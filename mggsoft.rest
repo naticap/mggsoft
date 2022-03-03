@@ -1,3 +1,43 @@
-@host=http://localhost:8080
+@host = http://localhost:8080/
 
 GET {{host}}
+content-type: application/json
+
+
+#  ================= USER ====================
+
+###
+GET {{host}}user
+
+###
+POST {{host}}user
+content-type: application/json
+Accept: application/json
+
+{
+    "firstName": "Test",
+    "lastName": "User",
+    "dateOfBirth": "2000-03-20",
+    "email": "test@user.com",
+    "phoneNumber": "23423300",
+    "password": "TestPassword",
+    "token": null
+}
+
+###
+PATCH {{host}}user/1
+content-type: application/json
+
+{
+    "firstName": "Test",
+    "lastName": "User",
+    "dateOfBirth": "2000-03-20",
+    "email": "test@user.com",
+    "phoneNumber": "234233004",
+    "password": "$2a$10$EgUk6IN.wPVcZgrqXWV4h.YmfDDlPntaJ/jACPGH7f2nAty.YKmeC",
+    "token": null
+}
+
+###
+DELETE {{host}}user/5
+#  ================= USER ==================== END #

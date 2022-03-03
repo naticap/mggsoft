@@ -2,6 +2,8 @@
 const {
   Model
 } = require('sequelize');
+const bcrypt = require("bcryptjs");
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -14,14 +16,47 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    dateOfBirth: DataTypes.DATE,
-    email: DataTypes.STRING,
-    phoneNumber: DataTypes.STRING,
-    password: DataTypes.STRING,
-    token: DataTypes.STRING,
-    role: DataTypes.ENUM('admin', 'role')
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    lastName: {
+      type: DataTypes.STRING
+    },
+    dateOfBirth: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      validate: {
+        isDate: true
+      }
+    },
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        isEmail: true,
+      }
+    },
+    phoneNumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        len: [4, 8]
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      set(value) {
+        this.setDataValue('password', bcrypt.hashSync(value, 10));
+      }
+    },
+    token: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    role: {
+      type: DataTypes.ENUM('admin', 'role'),
+      default: 'user'
+    },
   }, {
     sequelize,
     modelName: 'User',
