@@ -4,6 +4,9 @@ const express = require("express");
 const cors = require("cors");
 
 const dotenv = require("dotenv");
+const auth = require("./middlewares/auth.js");
+const AccessControl = require('accesscontrol');
+
 dotenv.config();
 
 const app = express();
@@ -17,6 +20,8 @@ app.get("/", (req, res) => {
   res.json({ message: "Test API" });
 });
 
+require("./routes/auth.js")(app);
+app.use(auth);
 require("./routes/user.js")(app);
 
 // set port, listen for requests

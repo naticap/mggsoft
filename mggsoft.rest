@@ -1,43 +1,64 @@
 @host = http://localhost:8080/
-
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciIsImlhdCI6MTY0NjU2Mzg5OCwiZXhwIjoxNjQ2NTc0Njk4fQ.TkP3vpjYUQDQ1Q1cQ9sVM8dY_nMrHOM-19-5VBDC3bk
 GET {{host}}
 content-type: application/json
 
+#  ================= AUTH ====================
+
+###
+POST {{host}}login
+content-type: application/json
+
+{
+    "email": "joe@joe.com",
+    "password": "123456"
+}
+###
+POST {{host}}register
+content-type: application/json
+
+{
+    "firstName": "Joe",
+    "lastName": "Basil",
+    "email": "joe@basil.com",
+    "password": "123456"
+}
+
+#  ================= AUTH ==================== END #
 
 #  ================= USER ====================
 
 ###
 GET {{host}}user
+Authorization: bearer {{token}} 
 
 ###
 POST {{host}}user
 content-type: application/json
 Accept: application/json
+Authorization: bearer {{token}} 
 
 {
     "firstName": "Test",
     "lastName": "User",
     "dateOfBirth": "2000-03-20",
-    "email": "test@user.com",
+    "email": "test@joe.com",
     "phoneNumber": "23423300",
-    "password": "TestPassword",
-    "token": null
+    "password": "123456"
 }
 
 ###
-PATCH {{host}}user/1
+PATCH {{host}}user/5
 content-type: application/json
+Authorization: bearer {{token}} 
 
 {
     "firstName": "Test",
     "lastName": "User",
-    "dateOfBirth": "2000-03-20",
-    "email": "test@user.com",
-    "phoneNumber": "234233004",
-    "password": "$2a$10$EgUk6IN.wPVcZgrqXWV4h.YmfDDlPntaJ/jACPGH7f2nAty.YKmeC",
-    "token": null
+    "phoneNumber": "23423300"
 }
 
 ###
-DELETE {{host}}user/5
+DELETE {{host}}user/1
+Authorization: bearer {{token}} 
 #  ================= USER ==================== END #

@@ -45,17 +45,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
-      set(value) {
-        this.setDataValue('password', bcrypt.hashSync(value, 10));
-      }
+     
     },
     token: {
       type: DataTypes.STRING,
       allowNull: true,
     },
     role: {
-      type: DataTypes.ENUM('admin', 'role'),
-      default: 'user'
+      type: DataTypes.ENUM('admin', 'user'),
+      defaultValue: 'user',
     },
   }, {
     sequelize,

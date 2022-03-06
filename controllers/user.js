@@ -6,8 +6,6 @@ const Op = db.Sequelize.Op;
 
 exports.create = async (req, res) => {
     try {
-      const password = await bcrypt.hash(req.body.password, 10);
-      req.body.password = password;
       const user = await User.create(req.body);
 
       return res.json(user);
@@ -18,7 +16,6 @@ exports.create = async (req, res) => {
 
 exports.findAll = async (req, res) => {
     try {
-      console.log("tests from controller ");
       if(req.params.id) {
         return this.findByPk(req, res);
       }
